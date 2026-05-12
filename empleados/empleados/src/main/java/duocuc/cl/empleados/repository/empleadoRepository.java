@@ -6,7 +6,7 @@ import duocuc.cl.empleados.model.empleado;
 
 @repository
 public class empleadoRepository {
-    private List <empleado> listaEmpleados= new ArrayList<>();
+    private List <empleado> listaEmpleados= new ArrayList<>()
     
     //para mostrar todos los empleados
     public List<empleado> obtenerEmpleado() {
