@@ -1,5 +1,7 @@
 package cl.blockduocster.multa.controller;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -18,6 +20,11 @@ import cl.blockduocster.multa.service.MultaService;
 public class MultaController {
     @Autowired
     private MultaService service;
+
+    @GetMapping
+    public ResponseEntity<List<Multa>> getAll(){
+        return ResponseEntity.ok(service.listarMultas());
+    }
 
     @GetMapping("/{id}")
     public ResponseEntity<Multa> getMulta(@PathVariable int id){

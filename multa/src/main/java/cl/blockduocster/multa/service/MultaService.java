@@ -15,7 +15,7 @@ public class MultaService{
     private MultaRepository repository;
 
     public List<Multa> listarMultas(){
-        return 
+        return repository.findAll();
     }
 
     public Multa buscarPorId(int id){
@@ -38,5 +38,4 @@ public class MultaService{
             return repository.save(multa);
         }
     }
-
 }
