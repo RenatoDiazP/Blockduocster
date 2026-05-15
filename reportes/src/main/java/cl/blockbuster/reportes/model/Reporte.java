@@ -24,7 +24,7 @@ public class Reporte {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
     
-    @Column(nullable = false)
+    @Column(nullable = true)
     private Integer totalReporte;
 
     @Column(nullable = false, name = "fecha_reporte")

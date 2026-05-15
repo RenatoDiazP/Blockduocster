@@ -1,5 +1,6 @@
 package cl.blockbuster.pagos.controller;
 
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import cl.blockbuster.pagos.Service.PagoService;
 import cl.blockbuster.pagos.model.Pago;
+
 
 
 @RestController
@@ -75,4 +77,15 @@ public class PagoController {
             return ResponseEntity.notFound().build();
         }
     }
+
+    @GetMapping("/registro/{date}")
+    public ResponseEntity<List<Integer>> listarParaReporte(@PathVariable Date date) {
+        List<Integer> list = service.listarPagosPorFecha(date);
+        if(list.isEmpty()){
+            return ResponseEntity.noContent().build();
+        }else{
+            return ResponseEntity.ok(list);
+        }
+    }
+    
 }

@@ -12,4 +12,6 @@ import cl.blockbuster.reportes.model.Reporte;
 @Repository
 public interface ReporteRepository extends JpaRepository<Reporte, Integer> {
     List<Reporte> findByFechaReporte(Date fechaReporte);
+
+    void deleteAllById(Integer id);
 }

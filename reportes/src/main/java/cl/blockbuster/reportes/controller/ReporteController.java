@@ -7,7 +7,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -15,7 +14,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import cl.blockbuster.reportes.model.Reporte;
 import cl.blockbuster.reportes.service.ReporteService;
-
 
 
 @RestController
@@ -26,44 +24,37 @@ public class ReporteController {
     private ReporteService service;
 
     @GetMapping
-    public ResponseEntity<List<Reporte>> listarReportes() {
-        List<Reporte> list = service.listaReportes();
-        if(list.isEmpty()){
+    public ResponseEntity<List<Reporte>> listarReportes(){
+        List<Reporte> lista = service.listarReportes();
+        if(lista.isEmpty()){
             return ResponseEntity.noContent().build();
         }else{
-            return ResponseEntity.ok(list);
+            return ResponseEntity.ok(lista);
         }
     }
 
-    @GetMapping("/id/{id}")
-    public ResponseEntity<Reporte> listarReportePorId(@PathVariable Integer id) {
+    @GetMapping("/{date}")
+    public ResponseEntity<List<Reporte>> listarPorFecha(Date date){
+        List<Reporte> lista = service.listarPorFecha(date);
+        if(lista.isEmpty()){
+            return ResponseEntity.noContent().build();
+        }else{
+            return ResponseEntity.ok(lista);
+        }
+    }
+    
+    @PostMapping()
+    public ResponseEntity<Reporte> generarReporte(@RequestBody Reporte reporte) {
         try {
-            Reporte reporte = service.buscaReportePorId(id);
-            return ResponseEntity.ok(reporte);
+            Reporte report = service.generarReportePorFecha(reporte);
+            return ResponseEntity.ok(report);
         } catch (Exception e) {
             return ResponseEntity.notFound().build();
         }
     }
 
-    @GetMapping("/fecha/{date}")
-    public ResponseEntity<List<Reporte>> listarReportesPorFecha(@PathVariable Date date) {
-        List<Reporte> list = service.listarPorFecha(date);
-        if(list.isEmpty()){
-            return ResponseEntity.noContent().build();
-        }else{
-            return ResponseEntity.ok(list);
-        }
+    @DeleteMapping
+    public void eliminarReporte(Integer id){
+        service.eliminarReporte(id);
     }
-    
-    @PostMapping
-    public Reporte generarReporte(@RequestBody Reporte reporte) {
-        service.generarReporte(reporte);
-        return reporte;
-    }
-
-    @DeleteMapping("/{id}")
-    public void eliminarReportePorId(@PathVariable Integer id){
-        service.eliminarReportePorId(id);
-    }
-    
 }

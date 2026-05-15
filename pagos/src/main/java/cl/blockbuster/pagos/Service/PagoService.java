@@ -1,5 +1,7 @@
 package cl.blockbuster.pagos.Service;
 
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,10 +10,10 @@ import org.springframework.stereotype.Service;
 import cl.blockbuster.pagos.client.UsuarioClient;
 import cl.blockbuster.pagos.dto.PagoDTO;
 import cl.blockbuster.pagos.dto.UsuarioDTO;
-import cl.blockbuster.pagos.model.Estado;
-import cl.blockbuster.pagos.model.MetodoPago;
 import cl.blockbuster.pagos.model.Pago;
 import cl.blockbuster.pagos.repository.PagoRepository;
+
+
 
 @Service
 public class PagoService {
@@ -37,15 +39,12 @@ public class PagoService {
         if (usuario == null){
             throw new RuntimeException("usuario no encontrado");
         }
-
-        MetodoPago metodo = pago.getMetodo();
-        Estado estado = pago.getEstado();
         
         PagoDTO dto = new PagoDTO();
 
         dto.setId(pago.getId());
         dto.setMonto(pago.getMonto());
-        dto.setFecha_pago(pago.getFecha_pago());
+        dto.setFecha_pago(pago.getFechaPago());
 
         return dto;
     }
@@ -70,5 +69,20 @@ public class PagoService {
 
     public void eliminarPagoPorId(Integer id){
         repo.deleteById(id);
+    }
+
+    public List<Integer> listarPagosPorFecha(Date date){
+        List<Pago> lista = repo.findByFechaPago(date);
+        
+        if(lista.isEmpty()){
+            throw new RuntimeException("nO");
+        }
+
+        List<Integer> pagos = new ArrayList<>();
+
+        for(Pago pago : lista){
+            pagos.add(pago.getMonto());
+        }
+        return pagos;
     }
 }

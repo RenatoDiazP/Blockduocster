@@ -26,10 +26,10 @@ public class Pago {
     private Integer id;
 
     @Column(nullable = false)
-    private double monto;
+    private Integer monto;
 
-    @Column(nullable = false)
-    private Date fecha_pago;
+    @Column(nullable = false, name = "fecha_pago")
+    private Date fechaPago;
 
     @Column(nullable = false, name = "id_usuario")
     private Integer idUsuario;
