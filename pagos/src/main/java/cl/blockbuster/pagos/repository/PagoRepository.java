@@ -13,5 +13,5 @@ public interface PagoRepository extends JpaRepository<Pago, Integer>{
 
     List<Pago> findByIdUsuario(Integer id_usuario);
 
-    List<Pago> findByFechaPago(Date fecha_pago);
+    List<Pago> findByFechaPago(Date fechaPago);
 }

@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import cl.blockbuster.reportes.client.PagoClient;
+import cl.blockbuster.reportes.dto.PagoDTO;
 import cl.blockbuster.reportes.model.Reporte;
 import cl.blockbuster.reportes.repository.ReporteRepository;
 
@@ -15,7 +16,8 @@ public class ReporteService {
     @Autowired
     private ReporteRepository repo;
 
-    private PagoClient pagos;
+    @Autowired
+    private PagoClient pagoClient;
 
     public List<Reporte> listarReportes(){
         return repo.findAll();
@@ -26,16 +28,27 @@ public class ReporteService {
     }
 
     public Reporte generarReportePorFecha(Reporte reporte){
-        List<Integer> listaPagos = pagos.listarPorFecha(reporte.getFechaReporte());
+        List<PagoDTO> pagos = pagoClient.listarPagosDTO();
         Integer total = 0;
 
-        for(Integer monto : listaPagos){
-            total = total + monto;
+        java.text.SimpleDateFormat sdf = new java.text.SimpleDateFormat("yyyy-MM-dd");
+        sdf.setTimeZone(java.util.TimeZone.getTimeZone("GMT"));
+
+        for (PagoDTO dto : pagos) {
+        // Usa getFechaPago() o getFecha_pago() según se llame en tu DTO
+        if (dto.getFechaPago() != null && reporte.getFechaReporte() != null) {
+
+            String fechaPagoStr = sdf.format(dto.getFechaPago());
+            String fechaReporteStr = sdf.format(reporte.getFechaReporte());
+            
+            // Comparamos los caracteres exactos
+            if (fechaPagoStr.equals(fechaReporteStr)) {
+                total = total + dto.getMonto();
+                }
+            }
         }
-        Reporte report = reporte;
-        
-        report.setTotalReporte(total);
-        return report;
+        reporte.setTotalReporte(total);
+        return repo.save(reporte);
     }
 
     public void eliminarReporte(Integer id){

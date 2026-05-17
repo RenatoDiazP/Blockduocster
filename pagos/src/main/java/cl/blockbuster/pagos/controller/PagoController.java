@@ -1,6 +1,5 @@
 package cl.blockbuster.pagos.controller;
 
-import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,12 +13,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import cl.blockbuster.pagos.Service.PagoService;
+import cl.blockbuster.pagos.dto.PagoDTO;
 import cl.blockbuster.pagos.model.Pago;
 
 
 
+
 @RestController
-@RequestMapping("/pagos")
+@RequestMapping("/appi/v1/pagos")
 public class PagoController {
 
     @Autowired
@@ -59,7 +60,7 @@ public class PagoController {
     
     @PostMapping
     public Pago registrarPago(@RequestBody Pago pago) {
-        service.registrarPago(pago);
+        service.registrarPagoV2(pago);
         return pago;
     }
 
@@ -78,14 +79,13 @@ public class PagoController {
         }
     }
 
-    @GetMapping("/registro/{date}")
-    public ResponseEntity<List<Integer>> listarParaReporte(@PathVariable Date date) {
-        List<Integer> list = service.listarPagosPorFecha(date);
-        if(list.isEmpty()){
+    @GetMapping("/registros")
+    public ResponseEntity<List<PagoDTO>> listarPagosDTO() {
+        List<PagoDTO> lista = service.listarDTO();
+        if(lista.isEmpty()){
             return ResponseEntity.noContent().build();
         }else{
-            return ResponseEntity.ok(list);
+            return ResponseEntity.ok(lista);
         }
     }
-    
 }

@@ -1,4 +1,4 @@
-package cl.blockbuster.pagos.dto;
+package cl.blockbuster.reportes.dto;
 
 import java.util.Date;
 

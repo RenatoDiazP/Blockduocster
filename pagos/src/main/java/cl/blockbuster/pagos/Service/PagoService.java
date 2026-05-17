@@ -1,7 +1,6 @@
 package cl.blockbuster.pagos.Service;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,7 +9,11 @@ import org.springframework.stereotype.Service;
 import cl.blockbuster.pagos.client.UsuarioClient;
 import cl.blockbuster.pagos.dto.PagoDTO;
 import cl.blockbuster.pagos.dto.UsuarioDTO;
+import cl.blockbuster.pagos.model.Estado;
+import cl.blockbuster.pagos.model.MetodoPago;
 import cl.blockbuster.pagos.model.Pago;
+import cl.blockbuster.pagos.repository.EstadoRepository;
+import cl.blockbuster.pagos.repository.MetodoRepository;
 import cl.blockbuster.pagos.repository.PagoRepository;
 
 
@@ -22,6 +25,12 @@ public class PagoService {
 
     @Autowired
     private UsuarioClient usuarioClient;
+
+    @Autowired
+    private EstadoRepository estadoRepo;
+
+    @Autowired
+    private MetodoRepository metodoRepo;
 
     public List<Pago> listarPagos(){
         return repo.findAll();
@@ -44,7 +53,7 @@ public class PagoService {
 
         dto.setId(pago.getId());
         dto.setMonto(pago.getMonto());
-        dto.setFecha_pago(pago.getFechaPago());
+        dto.setFechaPago(pago.getFechaPago());
 
         return dto;
     }
@@ -59,10 +68,17 @@ public class PagoService {
 
     public Pago registrarPagoV2(Pago pago){
         UsuarioDTO usuario = usuarioClient.buscarPorId(pago.getIdUsuario());
-
         if (usuario == null){
             throw new RuntimeException("Usuario no encontrado");
         }
+
+        Estado estado = estadoRepo.findById(pago.getEstado().getId())
+                        .orElseThrow(() -> new RuntimeException("Estado no encontrado"));
+        MetodoPago metodoPago = metodoRepo.findById(pago.getMetodo().getId())
+                        .orElseThrow(() -> new RuntimeException("Metodo de pago no encontrado"));
+
+        pago.setEstado(estado);
+        pago.setMetodo(metodoPago);
         
         return repo.save(pago);
     }
@@ -71,18 +87,18 @@ public class PagoService {
         repo.deleteById(id);
     }
 
-    public List<Integer> listarPagosPorFecha(Date date){
-        List<Pago> lista = repo.findByFechaPago(date);
-        
-        if(lista.isEmpty()){
-            throw new RuntimeException("nO");
-        }
+    public List<PagoDTO> listarDTO(){
+        List<PagoDTO> lista = new ArrayList<>();
+        List<Pago> pagos = repo.findAll();
+        for(Pago pago : pagos){
+            PagoDTO dto = new PagoDTO();
 
-        List<Integer> pagos = new ArrayList<>();
+            dto.setId(pago.getId());
+            dto.setFechaPago(pago.getFechaPago());
+            dto.setMonto(pago.getMonto());
 
-        for(Pago pago : lista){
-            pagos.add(pago.getMonto());
+            lista.add(dto);
         }
-        return pagos;
+        return lista;
     }
 }

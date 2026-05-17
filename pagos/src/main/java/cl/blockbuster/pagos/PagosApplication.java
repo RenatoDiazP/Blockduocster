@@ -10,7 +10,7 @@ public class PagosApplication {
 
 	public static void main(String[] args) {
 		SpringApplication.run(PagosApplication.class, args);
-		System.out.println("Funcionando por algun motivo lol");
+		System.out.println("Funcionando - Pagos");
 	}
 
 }

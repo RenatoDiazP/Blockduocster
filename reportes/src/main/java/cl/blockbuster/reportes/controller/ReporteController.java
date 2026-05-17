@@ -17,7 +17,7 @@ import cl.blockbuster.reportes.service.ReporteService;
 
 
 @RestController
-@RequestMapping("/reportes")
+@RequestMapping("/appi/v1/reportes")
 public class ReporteController {
 
     @Autowired

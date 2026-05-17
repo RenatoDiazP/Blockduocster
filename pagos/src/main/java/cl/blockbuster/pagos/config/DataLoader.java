@@ -16,14 +16,24 @@ public class DataLoader {
     @Bean
     public CommandLineRunner initData(PagoRepository pagoRepo, MetodoRepository metodoRepo, EstadoRepository estadoRepo){
         return args ->{
-            if(pagoRepo.count()>0){
-                System.out.println("No se insertaron datos");
+            if(metodoRepo.count()>0){
+                System.out.println("No se insertaron datos: metodo_pago");
 
             }else{
                 MetodoPago metodo1 = new MetodoPago(null, "Efectivo");            
                 MetodoPago metodo2 = new MetodoPago(null, "Debito");            
                 MetodoPago metodo3 = new MetodoPago(null, "Credito");
                 
+                metodoRepo.save(metodo1);
+                metodoRepo.save(metodo2);
+                metodoRepo.save(metodo3);
+
+                System.out.println("Datos cargados: metodo_pago");
+            }
+            if(estadoRepo.count()>0){
+                System.out.println("No se insertaron datos: estado");
+
+            }else{
                 Estado estado1 = new Estado(null, "Pendiente");
                 Estado estado2 = new Estado(null, "Cancelado");
                 Estado estado3 = new Estado(null, "Rechazado");
@@ -31,22 +41,8 @@ public class DataLoader {
                 estadoRepo.save(estado1);             
                 estadoRepo.save(estado2);
                 estadoRepo.save(estado3);
-                metodoRepo.save(metodo1);
-                metodoRepo.save(metodo2);
-                metodoRepo.save(metodo3);
 
-                System.out.println("Datos cargados");
-                System.out.println("Datos cargados");
-                System.out.println("Datos cargados");
-                System.out.println("Datos cargados");
-                System.out.println("Datos cargados");
-                System.out.println("Datos cargados");
-                System.out.println("Datos cargados");
-                System.out.println("Datos cargados");
-                System.out.println("Datos cargados");
-                System.out.println("Datos cargados");
-                System.out.println("Datos cargados");
-                System.out.println("Datos cargados");
+                System.out.println("Datos cargados: estado");
             }
         };
     }
