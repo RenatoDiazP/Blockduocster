@@ -37,7 +37,22 @@ public class ReseniaService {
     }
 
     public Resenia guardarResenia(Resenia resenia){
-        return repo.save(resenia);
+        Integer calificacion = resenia.getCalificacion();
+        if(calificacion > 5 || calificacion < 1){
+            throw new RuntimeException("Calificacion fuera de rango");
+        }else{
+            UsuarioDTO usuario = usuarioClient.buscarPorId(resenia.getIdUsuario());
+            if (usuario == null){
+                throw new RuntimeException("usuario no encontrado");
+            }
+            PeliculaDTO pelicula = peliculaClient.buscarPelicula(resenia.getIdPelicula());
+            if (pelicula == null){
+                throw new RuntimeException("pelicula no encontrada");
+            }
+            return repo.save(resenia);
+        }
+
+        
     }
 
     public Resenia guardarReseniaV2(Resenia resenia){

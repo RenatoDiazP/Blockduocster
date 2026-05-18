@@ -20,7 +20,7 @@ import cl.blockbuster.resenias.service.ReseniaService;
 
 
 @RestController
-@RequestMapping("/reseñas")
+@RequestMapping("/appi/v1/reseñas")
 public class ReseniaController {
     @Autowired
     private ReseniaService service;

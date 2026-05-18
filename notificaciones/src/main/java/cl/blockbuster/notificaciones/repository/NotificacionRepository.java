@@ -9,5 +9,5 @@ import cl.blockbuster.notificaciones.model.Notificacion;
 
 @Repository
 public interface NotificacionRepository extends JpaRepository<Notificacion, Integer>{
-    List<Notificacion> findByIdUsuario(Integer id_usuario);
+    List<Notificacion> findByIdUsuario(Integer idUsuario);
 }
