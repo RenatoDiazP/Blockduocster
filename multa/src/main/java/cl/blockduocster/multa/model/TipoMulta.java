@@ -1,5 +1,6 @@
 package cl.blockduocster.multa.model;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -19,5 +20,9 @@ public class TipoMulta {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int idTipo;
 
-    private String tipoMulta;
+    @Column(nullable = false, unique = true)
+    private String descripcion;
+
+    @Column(nullable = false)
+    private int montoBase;
 }
