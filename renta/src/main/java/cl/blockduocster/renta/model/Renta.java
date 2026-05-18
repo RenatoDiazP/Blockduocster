@@ -1,5 +1,7 @@
 package cl.blockduocster.renta.model;
 
+import java.time.LocalDate;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -25,5 +27,13 @@ public class Renta {
 
     @Column(nullable = false)
     private int idPelicula;
+
+    @Column(nullable = false)
+    private LocalDate fechaArriendo;
+
+    @Column(nullable = false)
+    private LocalDate fechaTermino;
+
+    private boolean devuelta; //Si fue devuelta o no
 
 }
