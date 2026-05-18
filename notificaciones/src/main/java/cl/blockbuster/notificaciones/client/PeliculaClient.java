@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 
 import cl.blockbuster.notificaciones.dto.PeliculaDTO;
 
-@FeignClient(name = "peliculas", url = "http:/localhost:8082")
+@FeignClient(name = "peliculas", url = "http:/localhost:8081")
 public interface PeliculaClient {
     @GetMapping("/appi/v1/peliculas/dto/{id}")
     PeliculaDTO buscarPeliculaDTO(@PathVariable("Id") Integer id);
