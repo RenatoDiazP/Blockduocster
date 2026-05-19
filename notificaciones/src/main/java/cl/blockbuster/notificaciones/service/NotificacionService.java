@@ -40,6 +40,14 @@ public class NotificacionService {
     }
     
     public Notificacion generarNotificacion(Notificacion notifica){
+        PeliculaDTO peliculaDTO = peliculaClient.buscarPeliculaDTO(notifica.getIdPelicula());
+        if(peliculaDTO == null){
+            throw new RuntimeException("No se encontro la pelicula");
+        }
+        UsuarioDTO usuarioDTO = usuarioClient.buscarPorId(notifica.getIdUsuario());
+        if(usuarioDTO == null){
+            throw new RuntimeException("No se encontro el usuario");
+        }
         return repo.save(notifica);
     }
 
@@ -54,7 +62,7 @@ public class NotificacionService {
         if (usuario == null){
             throw new RuntimeException("Usuario no encontrado");
         }
-        PeliculaDTO pelicula = peliculaClient.buscarPelicula(notificacion.getIdPelicula());
+        PeliculaDTO pelicula = peliculaClient.buscarPeliculaDTO(notificacion.getIdPelicula());
         if (pelicula == null){
             throw new RuntimeException("Pelicula no encontrada");
         }

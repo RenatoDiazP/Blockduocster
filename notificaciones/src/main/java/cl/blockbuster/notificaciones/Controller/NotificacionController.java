@@ -64,7 +64,7 @@ public class NotificacionController {
         service.eliminarNotifiPorId(id);
     }
 
-    @GetMapping("/{id}")
+    @GetMapping("/dto/{id}")
     public ResponseEntity<NotificacionDTO> buscarNotifiDTO(Integer id) {
         try{
             NotificacionDTO notifi = service.buscarNotifiDTO(id);

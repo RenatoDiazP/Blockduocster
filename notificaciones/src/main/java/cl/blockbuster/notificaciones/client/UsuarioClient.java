@@ -6,8 +6,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 
 import cl.blockbuster.notificaciones.dto.UsuarioDTO;
 
-@FeignClient(name = "usuarios", url = "http://localhost:8081")
+@FeignClient(name = "usuarios", url = "http://localhost:8080")
 public interface UsuarioClient {
-    @GetMapping("/appi/v1/usuarios/{id}")
+    @GetMapping("/appi/v1/usuarios/dto/{id}")
     UsuarioDTO buscarPorId(@PathVariable("id") Integer id);
 }
