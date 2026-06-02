@@ -8,7 +8,7 @@ public class UsuariosApplication {
 
 	public static void main(String[] args) {
 		SpringApplication.run(UsuariosApplication.class, args);
-		System.out.println("Funcionando");
+		System.out.println("Funcionando - usuarios");
 	}
 
 }
